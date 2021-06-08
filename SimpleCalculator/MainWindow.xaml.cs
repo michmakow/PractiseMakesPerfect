@@ -54,7 +54,7 @@ namespace SimpleCalculator
         {
             if (double.TryParse(ResultLabel.Content.ToString(), out var tempNumber))
             {
-                tempNumber = tempNumber / 100;
+                tempNumber /= 100;
                 if (lastNumber != 0) tempNumber *= lastNumber;
                 
                 ResultLabel.Content = tempNumber.ToString();
