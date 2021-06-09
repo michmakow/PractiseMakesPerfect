@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows;
 
 namespace ContactsApp
@@ -11,7 +7,9 @@ namespace ContactsApp
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App
     {
+        private static readonly string DatabaseName = "Contacts.db";
+        public static string DatabasePath { get; } = Path.Combine(Environment.CurrentDirectory, DatabaseName);
     }
 }
