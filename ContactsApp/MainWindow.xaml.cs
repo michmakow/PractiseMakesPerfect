@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
 using ContactsApp.Classes;
 using SQLite;
 
@@ -9,9 +12,13 @@ namespace ContactsApp
     /// </summary>
     public partial class MainWindow
     {
+        private List<Contact> _contacts;
+
         public MainWindow()
         {
             InitializeComponent();
+
+            _contacts = new List<Contact>();
 
             ReadDatabase();
         }
@@ -28,7 +35,18 @@ namespace ContactsApp
         {
             using var connection = new SQLiteConnection(App.DatabasePath);
             connection.CreateTable<Contact>();
-            var contacts = connection.Table<Contact>().ToList();
+            _contacts = connection.Table<Contact>().ToList();
+
+            if (_contacts != null)
+                ContactsListView.ItemsSource = _contacts;
+        }
+
+        private void TextBoxBase_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            var searchTextBox = (TextBox) sender;
+
+            var filteredList = _contacts.Where(c => c.Name.ToLower().Contains(searchTextBox.Text)).ToList();
+            ContactsListView.ItemsSource = filteredList;
         }
     }
 }
