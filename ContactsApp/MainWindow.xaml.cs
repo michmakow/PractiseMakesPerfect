@@ -35,7 +35,7 @@ namespace ContactsApp
         {
             using var connection = new SQLiteConnection(App.DatabasePath);
             connection.CreateTable<Contact>();
-            _contacts = connection.Table<Contact>().ToList();
+            _contacts = connection.Table<Contact>().OrderBy(c =>c.Name).ToList();
 
             if (_contacts != null)
                 ContactsListView.ItemsSource = _contacts;
@@ -45,7 +45,7 @@ namespace ContactsApp
         {
             var searchTextBox = (TextBox) sender;
 
-            var filteredList = _contacts.Where(c => c.Name.ToLower().Contains(searchTextBox.Text)).ToList();
+            var filteredList = _contacts.Where(c => c.Name.ToLower().Contains(searchTextBox.Text.ToLower())).ToList();
             ContactsListView.ItemsSource = filteredList;
         }
     }
