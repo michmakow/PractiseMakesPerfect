@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text.Json.Serialization;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using LandmarkAI.Classes;
 using Microsoft.Win32;
+using Newtonsoft.Json;
 
 namespace LandmarkAI
 {
@@ -36,7 +33,30 @@ namespace LandmarkAI
             {
                 var fileName = dialog.FileName;
                 SelectedImage.Source = new BitmapImage(new Uri(fileName));
+
+                MakePredictionAsync(fileName);
             }
+        }
+
+        private async void MakePredictionAsync(string fileName)
+        {
+            var url =
+                "https://westeurope.api.cognitive.microsoft.com/customvision/v3.0/Prediction/640571d2-e30b-42b7-ba45-87b7a09c6c72/classify/iterations/Test/image";
+            var predictionKey = "0df6ffecf8f4473b96231efaa81dad2d";
+            var contentType = "application/octet-stream";
+            var file = File.ReadAllBytes(fileName);
+
+            using var httpClient = new HttpClient();
+            using var content = new ByteArrayContent(file);
+
+            httpClient.DefaultRequestHeaders.Add("Prediction-Key",predictionKey);
+            content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
+            
+            var response = await httpClient.PostAsync(url, content);
+            var responseString = await response.Content.ReadAsStringAsync();
+
+            var predictions = JsonConvert.DeserializeObject<CustomVision>(responseString).Predictions;
+            
         }
     }
 }
