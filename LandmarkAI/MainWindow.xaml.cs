@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text.Json.Serialization;
 using System.Windows;
-using System.Windows.Documents;
 using System.Windows.Media.Imaging;
 using LandmarkAI.Classes;
 using Microsoft.Win32;
@@ -56,7 +53,7 @@ namespace LandmarkAI
             var responseString = await response.Content.ReadAsStringAsync();
 
             var predictions = JsonConvert.DeserializeObject<CustomVision>(responseString).Predictions;
-            
+            PredictionsListView.ItemsSource = predictions;
         }
     }
 }
