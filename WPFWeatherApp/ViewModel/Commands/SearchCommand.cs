@@ -14,7 +14,9 @@ namespace WPFWeatherApp.ViewModel.Commands
 
         public bool CanExecute(object parameter)
         {
-            return !string.IsNullOrWhiteSpace(parameter.ToString());
+            var query = parameter as string;
+
+            return !string.IsNullOrWhiteSpace(query);
         }
 
         public void Execute(object parameter)
@@ -22,6 +24,10 @@ namespace WPFWeatherApp.ViewModel.Commands
             WeatherVm.MakeQuery();
         }
 
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler CanExecuteChanged
+        {
+            add => CommandManager.RequerySuggested += value;
+            remove => CommandManager.RequerySuggested -= value;
+        }
     }
 }
