@@ -3,6 +3,8 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using WPFWeatherApp.Annotations;
 using WPFWeatherApp.Model;
+using WPFWeatherApp.ViewModel.Commands;
+using WPFWeatherApp.ViewModel.Helpers;
 
 namespace WPFWeatherApp.ViewModel
 {
@@ -44,6 +46,8 @@ namespace WPFWeatherApp.ViewModel
             }
         }
 
+        public SearchCommand SearchCommand { get; set; }
+
         public WeatherVM()
         {
             //Good for test purpose, we see default in designer but no after running app
@@ -66,6 +70,13 @@ namespace WPFWeatherApp.ViewModel
                     }
                 };
             }
+
+            SearchCommand = new SearchCommand(this);
+        }
+
+        public async void MakeQuery()
+        {
+            var cities = await AccuWeatherHelper.GetCities(Query);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
