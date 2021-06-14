@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using WPFWeatherApp.Annotations;
@@ -10,6 +11,8 @@ namespace WPFWeatherApp.ViewModel
 {
     public class WeatherVM : INotifyPropertyChanged
     {
+        public ObservableCollection<City> Cities { get; set; }
+
         private string _query;
 
         public string Query
@@ -43,6 +46,7 @@ namespace WPFWeatherApp.ViewModel
             {
                 _selectedCity = value; 
                 OnPropertyChanged(nameof(SelectedCity));
+                GetCurrentConditions();
             }
         }
 
@@ -65,18 +69,29 @@ namespace WPFWeatherApp.ViewModel
                     {
                         Metric = new Units
                         {
-                            Value = 21
+                            Value = "21"
                         }
                     }
                 };
             }
 
             SearchCommand = new SearchCommand(this);
+            Cities = new ObservableCollection<City>();
+        }
+
+        private async void GetCurrentConditions()
+        {
+            Query = string.Empty;
+            Cities.Clear();
+            CurrentConditions = await AccuWeatherHelper.GetCurrentConditions(SelectedCity.Key);
         }
 
         public async void MakeQuery()
         {
             var cities = await AccuWeatherHelper.GetCities(Query);
+
+            Cities.Clear();
+            foreach (var city in cities) Cities.Add(city);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
