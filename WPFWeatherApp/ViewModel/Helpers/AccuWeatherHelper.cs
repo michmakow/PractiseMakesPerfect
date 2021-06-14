@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Windows;
 using Newtonsoft.Json;
 using WPFWeatherApp.Model;
 
@@ -14,7 +17,7 @@ namespace WPFWeatherApp.ViewModel.Helpers
         public const string CURRENT_CONDITION_ENDPOINT = "currentconditions/v1/{0}?apikey={1}";
         public const string API_KEY = "EsHPhzokk32Bu1EGexrdUwGOD5Fhk8Af";
 
-        public static async Task <List<City>> GetCities(string query)
+        public static async Task<List<City>> GetCities(string query)
         {
             var url = BASE_URL + string.Format(AUTOCOMPLETE_ENDPOINT, API_KEY, query);
 
@@ -27,15 +30,15 @@ namespace WPFWeatherApp.ViewModel.Helpers
 
         public static async Task<CurrentConditions> GetCurrentConditions(string cityKey)
         {
-            var currentConditions = new CurrentConditions();
+            if (DesignerProperties.GetIsInDesignMode(new DependencyObject())) return null;
 
-            var url = BASE_URL + string.Format(CURRENT_CONDITION_ENDPOINT, cityKey, API_KEY);
+                var url = BASE_URL + string.Format(CURRENT_CONDITION_ENDPOINT, cityKey, API_KEY);
 
             using var client = new HttpClient();
             var response = await client.GetAsync(url);
             var json = await response.Content.ReadAsStringAsync();
 
-            return JsonConvert.DeserializeObject<List<CurrentConditions>>(json).FirstOrDefault();
+            return response.StatusCode != HttpStatusCode.OK ? JsonConvert.DeserializeObject<List<CurrentConditions>>(json).FirstOrDefault() : null;
         }
     }
 }

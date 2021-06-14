@@ -4,9 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:WPFWeatherApp.ViewModel"
+        xmlns:converters="clr-namespace:WPFWeatherApp.ViewModel.ValueConverters"
         Title="WeatherWindow" Height="450" Width="800">
     <Window.Resources>
         <vm:WeatherVM x:Key="Vm" />
+        <converters:BoolToRainConverter x:Key="BoolToRain"/>
     </Window.Resources>
     <Grid DataContext="{StaticResource Vm}">
         <Grid.RowDefinitions>
@@ -47,6 +49,10 @@
                 <TextBlock Text="{Binding WeatherText}"
                            Foreground="#f4f4f8"
                            FontSize="18"
+                           Margin="20,0" />
+                <TextBlock Text="{Binding HasPrecipitation, Converter={StaticResource BoolToRain}}"
+                           Foreground="#f4f4f8"
+                           FontSize="16"
                            Margin="20,0" />
             </StackPanel>
             <TextBlock Grid.Column="1"
