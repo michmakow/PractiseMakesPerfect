@@ -23,6 +23,10 @@ namespace Evernote.ViewModel.Commands
            VM.CreateNote((parameter as Notebook).Id);
         }
 
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler CanExecuteChanged
+        {
+            add => CommandManager.RequerySuggested += value;
+            remove => CommandManager.RequerySuggested -= value;
+        }
     }
 }
