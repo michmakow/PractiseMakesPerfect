@@ -23,7 +23,7 @@ namespace Evernote.ViewModel.Commands
 
         public void Execute(object parameter)
         {
-            //TODO Create new notebook
+            VM.CreateNotebook();
         }
 
         public event EventHandler CanExecuteChanged;

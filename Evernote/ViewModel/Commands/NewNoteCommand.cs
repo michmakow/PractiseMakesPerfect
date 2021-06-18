@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
+using Evernote.Model;
 
 namespace Evernote.ViewModel.Commands
 {
@@ -14,12 +15,12 @@ namespace Evernote.ViewModel.Commands
 
         public bool CanExecute(object parameter)
         {
-            return true;                    
+            return parameter is Notebook;
         }
 
         public void Execute(object parameter)
         {
-            //TODO create new note
+           VM.CreateNote((parameter as Notebook).Id);
         }
 
         public event EventHandler CanExecuteChanged;
