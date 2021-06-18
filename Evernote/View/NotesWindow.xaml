@@ -23,9 +23,30 @@
                 <MenuItem Header="Exit" Click="MenuItem_OnClick"/>
             </MenuItem>
         </Menu>
-        <Grid>
-
-        </Grid>
+        <ListView DockPanel.Dock="Left"
+                  Width="140"
+                  ItemsSource="{Binding Notebooks}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}"></TextBlock>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <ListView DockPanel.Dock="Left"
+                  Width="140"
+                  ItemsSource="{Binding Notes}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Title}"></TextBlock>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <ToolBarTray DockPanel.Dock="Top">
+            <ToolBar>
+                <Button Content="Speech"/>
+            </ToolBar>
+        </ToolBarTray>
+        <Grid/>
 
     </DockPanel>
 </Window>
