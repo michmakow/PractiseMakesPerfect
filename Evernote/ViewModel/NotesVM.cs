@@ -90,7 +90,5 @@ namespace Evernote.ViewModel
             Notes.Clear();
             foreach (var note in notes) Notes.Add(note);
         }
-
-       
     }
 }
