@@ -31,13 +31,6 @@ namespace Evernote.View
         }
 
 
-        private void BoldButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            var isButtonChecked = (sender as ToggleButton).IsChecked ?? false;
-
-            ContentRichTextBox.Selection.ApplyPropertyValue(TextElement.FontWeightProperty,
-                isButtonChecked ? FontWeights.Bold : FontWeights.Normal);
-        }
 
         private async void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
@@ -55,6 +48,43 @@ namespace Evernote.View
         {
             var selectedWeight = ContentRichTextBox.Selection.GetPropertyValue(FontWeightProperty);
             BoldButton.IsChecked = selectedWeight != DependencyProperty.UnsetValue && selectedWeight.Equals(FontWeights.Bold);
+
+            var selectedStyle = ContentRichTextBox.Selection.GetPropertyValue(FontWeightProperty);
+            ItalicButton.IsChecked = selectedStyle != DependencyProperty.UnsetValue && selectedStyle.Equals(FontStyles.Italic);
+
+            var selectedDecoration = ContentRichTextBox.Selection.GetPropertyValue(FontWeightProperty);
+            UnderlineButton.IsChecked = selectedDecoration != DependencyProperty.UnsetValue && selectedDecoration.Equals(TextDecorations.Underline);
+        }
+
+        private void BoldButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            var isButtonEnabled = (sender as ToggleButton).IsChecked ?? false;
+
+            ContentRichTextBox.Selection.ApplyPropertyValue(TextElement.FontWeightProperty,
+                isButtonEnabled ? FontWeights.Bold : FontWeights.Normal);
+        }
+
+        private void ItalicButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            var isButtonEnabled = (sender as ToggleButton).IsChecked ?? false;
+
+            ContentRichTextBox.Selection.ApplyPropertyValue(TextElement.FontStyleProperty,
+                isButtonEnabled ? FontStyles.Italic : FontStyles.Normal);
+        }
+
+        private void UnderlineButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            var isButtonEnabled = (sender as ToggleButton).IsChecked ?? false;
+
+            if(isButtonEnabled)
+                ContentRichTextBox.Selection.ApplyPropertyValue(Inline.TextDecorationsProperty,TextDecorations.Underline);
+            else
+            {
+                TextDecorationCollection textDecorations;
+                (ContentRichTextBox.Selection.GetPropertyValue(Inline.TextDecorationsProperty) as
+                    TextDecorationCollection).TryRemove(TextDecorations.Underline, out textDecorations);
+                ContentRichTextBox.Selection.ApplyPropertyValue(Inline.TextDecorationsProperty,textDecorations);
+            }
         }
     }
 }
