@@ -6,26 +6,26 @@
         xmlns:vm="clr-namespace:Evernote.ViewModel"
         mc:Ignorable="d"
         Title="NotesWindow" Height="450" Width="800">
- 
+
     <Window.Resources>
-        <vm:NotesVM x:Key="Vm"></vm:NotesVM>
+        <vm:NotesVM x:Key="Vm" />
     </Window.Resources>
 
     <DockPanel DataContext="{StaticResource Vm}">
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="File">
                 <MenuItem Header="New notebook"
-                          Command="{Binding NewNotebookCommand}"/>
+                          Command="{Binding NewNotebookCommand}" />
                 <MenuItem Header="New note"
                           Command="{Binding NewNoteCommand}"
-                          CommandParameter="{Binding SelectedNotebook}"/>
-                <Separator/>
-                <MenuItem Header="Exit" Click="MenuItem_OnClick"/>
+                          CommandParameter="{Binding SelectedNotebook}" />
+                <Separator />
+                <MenuItem Header="Exit" Click="MenuItem_OnClick" />
             </MenuItem>
         </Menu>
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem>
-                <TextBlock x:Name="StatusTextBlock"/>
+                <TextBlock x:Name="StatusTextBlock" />
             </StatusBarItem>
         </StatusBar>
         <ListView DockPanel.Dock="Left"
@@ -34,7 +34,7 @@
                   SelectedItem="{Binding SelectedNotebook, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Name}"></TextBlock>
+                    <TextBlock Text="{Binding Name}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
@@ -43,22 +43,24 @@
                   ItemsSource="{Binding Notes}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Title}"></TextBlock>
+                    <TextBlock Text="{Binding Title}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar>
-                <Button Content="Speech" Click="ButtonBase_OnClick"/>
-                <Button x:Name="BoldButton" Click="BoldButton_OnClick">
+                <Button Content="Speech" Click="ButtonBase_OnClick" />
+                <ToggleButton x:Name="BoldButton" Click="
+                              BoldButton_OnClick">
                     <TextBlock Text="B"
-                               FontWeight="Bold"/>
-                </Button>
+                               FontWeight="Bold" />
+                </ToggleButton>
             </ToolBar>
         </ToolBarTray>
         <Grid DataContext="{StaticResource Vm}">
-            <RichTextBox x:Name="ContentRichTextBox" 
-                         TextChanged="ContentRichTextBox_OnTextChanged"/>
+            <RichTextBox x:Name="ContentRichTextBox"
+                         TextChanged="ContentRichTextBox_OnTextChanged"
+                         SelectionChanged="ContentRichTextBox_OnSelectionChanged"/>
         </Grid>
 
     </DockPanel>
