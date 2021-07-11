@@ -1,7 +1,10 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
+using System.Windows.Media;
 using Microsoft.CognitiveServices.Speech;
 using Microsoft.CognitiveServices.Speech.Audio;
 
@@ -15,6 +18,12 @@ namespace Evernote.View
         public NotesWindow()
         {
             InitializeComponent();
+
+            var fontFamilies = Fonts.SystemFontFamilies.OrderBy(f => f.Source);
+            FontFamilyComboBox.ItemsSource = fontFamilies;
+
+            List<double> fontSizes = new List<double> {8, 9, 10, 11, 12, 14, 16, 28, 48};
+            FontSizeComboBox.ItemsSource = fontSizes;
         }
 
         private void MenuItem_OnClick(object sender, RoutedEventArgs e)
@@ -49,11 +58,14 @@ namespace Evernote.View
             var selectedWeight = ContentRichTextBox.Selection.GetPropertyValue(FontWeightProperty);
             BoldButton.IsChecked = selectedWeight != DependencyProperty.UnsetValue && selectedWeight.Equals(FontWeights.Bold);
 
-            var selectedStyle = ContentRichTextBox.Selection.GetPropertyValue(FontWeightProperty);
+            var selectedStyle = ContentRichTextBox.Selection.GetPropertyValue(FontStyleProperty);
             ItalicButton.IsChecked = selectedStyle != DependencyProperty.UnsetValue && selectedStyle.Equals(FontStyles.Italic);
 
-            var selectedDecoration = ContentRichTextBox.Selection.GetPropertyValue(FontWeightProperty);
+            var selectedDecoration = ContentRichTextBox.Selection.GetPropertyValue(Inline.TextDecorationsProperty);
             UnderlineButton.IsChecked = selectedDecoration != DependencyProperty.UnsetValue && selectedDecoration.Equals(TextDecorations.Underline);
+
+            FontFamilyComboBox.SelectedItem = ContentRichTextBox.Selection.GetPropertyValue(Inline.FontFamilyProperty);
+            FontSizeComboBox.Text = ContentRichTextBox.Selection.GetPropertyValue(Inline.FontSizeProperty).ToString();
         }
 
         private void BoldButton_OnClick(object sender, RoutedEventArgs e)
@@ -85,6 +97,19 @@ namespace Evernote.View
                     TextDecorationCollection).TryRemove(TextDecorations.Underline, out textDecorations);
                 ContentRichTextBox.Selection.ApplyPropertyValue(Inline.TextDecorationsProperty,textDecorations);
             }
+        }
+
+        private void FontFamilyComboBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (FontFamilyComboBox.SelectedItem != null)
+            {
+                ContentRichTextBox.Selection.ApplyPropertyValue(Inline.FontFamilyProperty, FontFamilyComboBox.SelectedItem);
+            }
+        }
+
+        private void FontSizeComboBox_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            ContentRichTextBox.Selection.ApplyPropertyValue(Inline.FontSizeProperty, FontSizeComboBox.Text);
         }
     }
 }

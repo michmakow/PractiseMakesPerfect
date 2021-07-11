@@ -65,6 +65,13 @@
                     <TextBlock Text="U"
                                TextDecorations="Underline"/>
                 </ToggleButton>
+                <ComboBox x:Name="FontFamilyComboBox"
+                          Width="100"
+                          SelectionChanged="FontFamilyComboBox_OnSelectionChanged"/>
+                <ComboBox x:Name="FontSizeComboBox"
+                          Width="50"
+                          IsEditable="True"
+                          TextBoxBase.TextChanged="FontSizeComboBox_OnTextChanged"/>
             </ToolBar>
         </ToolBarTray>
         <Grid DataContext="{StaticResource Vm}">
