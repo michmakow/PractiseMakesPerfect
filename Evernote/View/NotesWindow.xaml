@@ -36,7 +36,18 @@
                   SelectedItem="{Binding SelectedNotebook, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <uc:DisplayNotebook Notebook="{Binding}"/>
+                    <Grid>
+                    <uc:DisplayNotebook Notebook="{Binding}">
+                        <uc:DisplayNotebook.ContextMenu>
+                            <ContextMenu >
+                                <MenuItem Header="Rename"
+                                          Command="{Binding Source={StaticResource Vm}, Path=EditCommand}"/>
+                            </ContextMenu>
+                        </uc:DisplayNotebook.ContextMenu>
+                    </uc:DisplayNotebook>
+                        <TextBox Text="{Binding Name}"
+                            Visibility="{Binding Source={StaticResource Vm}, Path=IsVisible}" />
+                    </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
@@ -45,14 +56,14 @@
                   ItemsSource="{Binding Notes}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <uc:DisplayNote Note="{Binding}"/>
+                    <uc:DisplayNote Note="{Binding}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar>
                 <Button Content="Speech" Click="ButtonBase_OnClick" />
-                <ToggleButton x:Name="BoldButton" 
+                <ToggleButton x:Name="BoldButton"
                               Click=" BoldButton_OnClick">
                     <TextBlock Text="B"
                                FontWeight="Bold" />
@@ -60,26 +71,26 @@
                 <ToggleButton x:Name="ItalicButton"
                               Click="ItalicButton_OnClick">
                     <TextBlock Text="I"
-                               FontStyle="Italic"/>
+                               FontStyle="Italic" />
                 </ToggleButton>
                 <ToggleButton x:Name="UnderlineButton"
                               Click="UnderlineButton_OnClick">
                     <TextBlock Text="U"
-                               TextDecorations="Underline"/>
+                               TextDecorations="Underline" />
                 </ToggleButton>
                 <ComboBox x:Name="FontFamilyComboBox"
                           Width="100"
-                          SelectionChanged="FontFamilyComboBox_OnSelectionChanged"/>
+                          SelectionChanged="FontFamilyComboBox_OnSelectionChanged" />
                 <ComboBox x:Name="FontSizeComboBox"
                           Width="50"
                           IsEditable="True"
-                          TextBoxBase.TextChanged="FontSizeComboBox_OnTextChanged"/>
+                          TextBoxBase.TextChanged="FontSizeComboBox_OnTextChanged" />
             </ToolBar>
         </ToolBarTray>
         <Grid DataContext="{StaticResource Vm}">
             <RichTextBox x:Name="ContentRichTextBox"
                          TextChanged="ContentRichTextBox_OnTextChanged"
-                         SelectionChanged="ContentRichTextBox_OnSelectionChanged"/>
+                         SelectionChanged="ContentRichTextBox_OnSelectionChanged" />
         </Grid>
 
     </DockPanel>
