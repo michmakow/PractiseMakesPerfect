@@ -30,8 +30,20 @@ namespace Evernote.View
             var fontFamilies = Fonts.SystemFontFamilies.OrderBy(f => f.Source);
             FontFamilyComboBox.ItemsSource = fontFamilies;
 
-            List<double> fontSizes = new List<double> {8, 9, 10, 11, 12, 14, 16, 28, 48};
+            var fontSizes = new List<double> {8, 9, 10, 11, 12, 14, 16, 28, 48};
             FontSizeComboBox.ItemsSource = fontSizes;
+        }
+
+        protected override void OnActivated(EventArgs e)
+        {
+            base.OnActivated(e);
+
+            if (!string.IsNullOrEmpty(App.UserId)) return;
+
+            var loginWindow = new LoginWindow();
+            loginWindow.ShowDialog();
+
+            _viewModel.GetNotebooks();
         }
 
         private void ViewModel_SelectedNoteChanged(object sender, EventArgs e)
@@ -39,7 +51,6 @@ namespace Evernote.View
             ContentRichTextBox.Document.Blocks.Clear();
             if (_viewModel.SelectedNote != null)
             {
-
                 if(!string.IsNullOrEmpty(_viewModel.SelectedNote.FileLocation))
                 {
                     var fileStream = new FileStream(_viewModel.SelectedNote.FileLocation, FileMode.Open);
