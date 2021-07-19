@@ -25,7 +25,7 @@ namespace Evernote.View
         {
             InitializeComponent();
 
-            _viewModel = Resources["vm"] as NotesVM;
+            _viewModel = Resources["Vm"] as NotesVM;
             _viewModel.SelectedNoteChanged += ViewModel_SelectedNoteChanged;
             var fontFamilies = Fonts.SystemFontFamilies.OrderBy(f => f.Source);
             FontFamilyComboBox.ItemsSource = fontFamilies;

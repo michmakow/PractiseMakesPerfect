@@ -15,7 +15,11 @@ namespace Evernote.ViewModel
         public User User
         {
             get => _user;
-            set => _user = value;
+            set
+            {
+                _user = value;
+                OnPropertyChanged(nameof(User));
+            }
         }
 
         private Visibility _loginVisibility;
@@ -42,6 +46,105 @@ namespace Evernote.ViewModel
             }
         }
 
+        private string _username;
+
+        public string Username
+        {
+            get => _username;
+            set
+            {
+                _username = value;
+                User = new User
+                {
+                    Username = _username,
+                    Password = this.Password,
+                    Name = this.Name,
+                    Lastname = this.Lastname,
+                    ConfirmPassword = this.ConfirmPassword
+                };
+                OnPropertyChanged(nameof(Username));
+            }
+        }
+
+        private string _password;
+
+        public string Password
+        {
+            get => _password;
+            set
+            {
+                _password = value;
+                User = new User
+                {
+                    Username = this.Username,
+                    Password = _password,
+                    Name = this.Name,
+                    Lastname = this.Lastname,
+                    ConfirmPassword = this.ConfirmPassword
+                };
+                OnPropertyChanged(nameof(Password));
+            }
+        }
+
+        private string _name;
+
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                _name = value;
+                User = new User
+                {
+                    Username = this.Username,
+                    Password = this.Password,
+                    Name = _name,
+                    Lastname = this.Lastname,
+                    ConfirmPassword = this.ConfirmPassword
+                };
+                OnPropertyChanged(nameof(Name));
+            }
+        }
+
+        private string _lastname;
+
+        public string Lastname
+        {
+            get => _lastname;
+            set
+            {
+                _lastname = value;
+                User = new User
+                {
+                    Username = _username,
+                    Password = this.Password,
+                    Name = this.Name,
+                    Lastname = _lastname,
+                    ConfirmPassword = this.ConfirmPassword
+                };
+                OnPropertyChanged(nameof(Lastname));
+            }
+        }
+
+        private string _confirmPassword;
+
+        public string ConfirmPassword
+        {
+            get => _confirmPassword;
+            set
+            {
+                _confirmPassword = value;
+                User = new User
+                {
+                    Username = this.Username,
+                    Password = this.Password,
+                    Name = this.Name,
+                    Lastname = this.Lastname,
+                    ConfirmPassword = _confirmPassword
+                };
+                OnPropertyChanged(nameof(ConfirmPassword));
+            }
+        }
 
 
         public RegisterCommand RegisterCommand { get; set; }
@@ -55,6 +158,8 @@ namespace Evernote.ViewModel
             RegisterCommand = new RegisterCommand(this);
             LoginCommand = new LoginCommand(this);
             ShowRegisterCommand = new ShowRegisterCommand(this);
+
+            User = new User();
         }
 
         public void SwitchViews()
@@ -71,6 +176,16 @@ namespace Evernote.ViewModel
                 RegisterVisibility = Visibility.Collapsed;
                 LoginVisibility = Visibility.Visible;
             }
+        }
+
+        public  void Login()
+        {
+            //TODO 
+        }
+
+        public void Register()
+        {
+            //TODO
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

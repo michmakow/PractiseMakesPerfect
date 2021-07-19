@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
+using Evernote.Model;
 
 namespace Evernote.ViewModel.Commands
 {
@@ -14,12 +15,22 @@ namespace Evernote.ViewModel.Commands
 
         public bool CanExecute(object parameter)
         {
+            if (!(parameter is User user))
+                return false;
+
+            if (string.IsNullOrEmpty(user.Username))
+                return false;
+
+            if (string.IsNullOrEmpty(user.Password))
+                return false;
+
+
             return true;
         }
 
         public void Execute(object parameter)
         {
-            //TODO Login functionality
+            VM.Login();
         }
 
         public event EventHandler CanExecuteChanged;
