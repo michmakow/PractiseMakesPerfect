@@ -15,7 +15,7 @@
     <Grid DataContext="{StaticResource Vm}">
         <StackPanel Visibility="{Binding LoginVisibility}"
                     Margin="10,0">
-            <TextBlock Text="Username:" />
+            <TextBlock Text="Email:" />
             <TextBox Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock Text="Password:" />
             <TextBox Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -35,7 +35,7 @@
         </StackPanel>
         <StackPanel Visibility="{Binding RegisterVisibility}"
                     Margin="10,0">
-            <TextBlock Text="Username:" />
+            <TextBlock Text="Email:" />
             <TextBox Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock Text="Name:" />
             <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />

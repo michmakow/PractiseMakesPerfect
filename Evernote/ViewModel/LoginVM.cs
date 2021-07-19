@@ -4,6 +4,7 @@ using System.Windows;
 using Evernote.Annotations;
 using Evernote.Model;
 using Evernote.ViewModel.Commands;
+using Evernote.ViewModel.Helpers;
 
 namespace Evernote.ViewModel
 {
@@ -183,9 +184,9 @@ namespace Evernote.ViewModel
             //TODO 
         }
 
-        public void Register()
+        public async void Register()
         {
-            //TODO
+            await FirebaseAuthHelper.Register(User);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
